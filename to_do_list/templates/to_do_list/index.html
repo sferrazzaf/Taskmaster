@@ -1,0 +1,19 @@
+<DOCTYPE html>
+<html>
+
+<form action="/todolist/" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit" />
+</form>
+
+{% for task in tasks %}
+{{ task }}
+{% endfor %}
+
+
+Current task
+Started time:
+<button>End Task</button>
+
+</html>
