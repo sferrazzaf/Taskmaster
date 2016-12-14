@@ -7,13 +7,29 @@
     <input type="submit" value="Submit" />
 </form>
 
-{% for task in tasks %}
-{{ task }}
-{% endfor %}
+<div id=tasklist>
+    Stored tasks:
+    {% for task in tasks %}
+        <div class=task>
+        {{ task.text }}
+        </div>
+    {% endfor %}
+</div>
 
-
-Current task
+<div id=currenttask>
+Current task:
+<br>
 Started time:
+</div>
+
+
+<button>Pause Task</button>
 <button>End Task</button>
+
+<div id=finishedtasks>
+    Dummy text finished tasks will go here
+    task start finish duration
+</div>
+
 
 </html>
