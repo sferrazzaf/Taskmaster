@@ -1,35 +1,40 @@
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'to_do_list/to_do_list.css' %}" />
+
 <DOCTYPE html>
+
 <html>
 
-<form action="/todolist/" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Submit" />
-</form>
+    <div id=test>
 
-<div id=tasklist>
-    Stored tasks:
-    {% for task in tasks %}
-        <div class=task>
-        {{ task.text }}
-        </div>
-    {% endfor %}
-</div>
+    <form id="entertask" action="/todolist/" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit" />
+    </form>
 
-<div id=currenttask>
-Current task:
-<br>
-Started time:
-</div>
+    <div id=currenttask>
+    Current task:
+    <br>
+    Started time:
+    </div>
 
+    <button id=pausebutton>Pause Task</button>
+    <button id=endbutton>End Task</button>
 
-<button>Pause Task</button>
-<button>End Task</button>
+    <div id=tasklist>
+        Stored tasks:
+        {% for task in tasks %}
+            <div class=task>
+                TASK: {{ task.text }} PRIORITY: {{ task.priority }} CREATED: {{ task.created }} DURATION: {{ task.duration }} COMPLETED: {{ task.completed }}
+            </div>
+        {% endfor %}
+    </div>
 
-<div id=finishedtasks>
-    Dummy text finished tasks will go here
-    task start finish duration
-</div>
-
+    <div id=finishedtasks>
+        Dummy text finished tasks will go here
+        task start finish duration
+    </div>
+    </div>
 
 </html>

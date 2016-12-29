@@ -1,0 +1,24 @@
+#test * {
+    padding: 3px;
+    border: solid;
+    border-width: 5px;
+    border-color: red;
+}
+
+#entertask { 
+}
+
+#tasklist {
+}
+
+#currenttask {
+}
+
+#finishedtasks {
+}
+
+#pausebutton {
+}
+
+#endbutton {
+}
