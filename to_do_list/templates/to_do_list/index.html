@@ -4,37 +4,40 @@
 <DOCTYPE html>
 
 <html>
-
     <div id=test>
-
-    <form id="entertask" action="/todolist/" method="post">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Submit" />
-    </form>
-
-    <div id=currenttask>
-    Current task:
-    <br>
-    Started time:
-    </div>
-
-    <button id=pausebutton>Pause Task</button>
-    <button id=endbutton>End Task</button>
-
-    <div id=tasklist>
-        Stored tasks:
-        {% for task in tasks %}
-            <div class=task>
-                TASK: {{ task.text }} PRIORITY: {{ task.priority }} CREATED: {{ task.created }} DURATION: {{ task.duration }} COMPLETED: {{ task.completed }}
+        <div id=header>
+            <form id="entertask" action="/todolist/" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="Submit" />
+            </form>
+            <div id=mscalc>
+                It's a handy-dandy microsecond calculator! 
+                <input class=timebox id=daybox type="text" placeholder="Days">
+                <input class=timebox id=hourbox type="text" placeholder="Hours">
+                <input class=timebox id=minutebox type="text" placeholder="Minutes">
+                <button id=mscalcbutton>Calculate</button>
             </div>
-        {% endfor %}
-    </div>
-
-    <div id=finishedtasks>
-        Dummy text finished tasks will go here
-        task start finish duration
-    </div>
+            <div id=currenttask>
+            Current task:
+            <br>
+            Started time:
+            </div>
+            <button id=pausebutton>Pause Task</button>
+            <button id=endbutton>End Task</button>
+        </div>
+        <div id=tasklist>
+            Stored tasks:
+            {% for task in tasks %}
+                <div class=task>
+                    TASK: {{ task.text }} PRIORITY: {{ task.priority }} CREATED: {{ task.created }} DURATION: {{ task.duration }} COMPLETED: {{ task.completed }}
+                </div>
+            {% endfor %}
+        </div>
+        <div id=finishedtasks>
+            Dummy text finished tasks will go here
+            task start finish duration
+        </div>
     </div>
 
 </html>
