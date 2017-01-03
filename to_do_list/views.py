@@ -9,7 +9,7 @@ def todolist(request):
     if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
-            newtask = Task(text=form.cleaned_data['text'], created=datetime.now())
+            newtask = Task(duration = form.cleaned_data['duration'], text=form.cleaned_data['text'], created=datetime.now())
             newtask.save()
             return HttpResponseRedirect('/todolist/')
     else:
