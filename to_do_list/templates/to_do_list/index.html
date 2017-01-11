@@ -1,36 +1,51 @@
 {% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static 'to_do_list/to_do_list.css' %}" />
 
-<DOCTYPE html>
 
 <html>
-    <div id=test>
-        <div id=header>
-            <form id="entertask" action="/todolist/" method="post">
-                {% csrf_token %}
-                {{ form }}
-                <input type="submit" value="Submit" />
-            </form>
-            <div id=currenttask>
-            Current task:
-            <br>
-            Started time:
-            </div>
-            <button id=pausebutton>Pause Task</button>
-            <button id=endbutton>End Task</button>
-        </div>
-        <div id=tasklist>
-            Stored tasks:
-            {% for task in tasks %}
-                <div class=task>
-                    TASK: {{ task.text }} PRIORITY: {{ task.priority }} CREATED: {{ task.created }} DURATION: {{ task.duration }} COMPLETED: {{ task.completed }}
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="{% static 'to_do_list/to_do_list.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'to_do_list/to_do_list.css' %}"/>
+    <title>TaskMaster 2017</title>
+</head>
+    <body>
+        <div id=test>
+            <div id=header>
+                <form id="entertask" action="/todolist/" method="post">
+                    {% csrf_token %}
+                    {{ form }}
+                    <input type="submit" value="Submit" />
+                </form>
+                <div id=currenttask>
+                    Current task:
+                    <br>
+                    Started time:
                 </div>
-            {% endfor %}
+                <button id=pausebutton>Pause Task</button>
+                <button id=endbutton>End Task</button>
+            </div>
+            <div>
+                <table style="100%">
+                    <thead>Stored tasks:</thead>
+                        <tbody id=tasklist>
+                            {% for task in tasks %}
+                                <tr class=task data-priority={{ task.priority }}>
+                                    <td >TASK: {{ task.text }}</td><td
+                                    >PRIORITY: {{ task.priority }}</td><td
+                                    >CREATED: {{ task.created }}</td><td
+                                    >DURATION: {{ task.duration }}</td><td
+                                    >COMPLETED: {{ task.completed }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                </table>
+            </div>
         </div>
-        <div id=finishedtasks>
-            Dummy text finished tasks will go here
-            task start finish duration
-        </div>
-    </div>
 
+    </body>
+    <div id=finishedtasks>
+        Dummy text finished tasks will go here
+        task start finish duration
+    </div>
 </html>

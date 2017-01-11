@@ -10,6 +10,9 @@ class Task(models.Model):
     created = models.DateTimeField('date created')
     completed = models.DateTimeField('date completed', blank=True, null=True)
 
+    def __str__(self):
+        return self.text
+
 class Tasklist(models.Model):
     name = models.CharField(max_length=100)
 
