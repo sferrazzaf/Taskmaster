@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from .models import *
 from datetime import datetime
+from django.db.models import F
 
 from .forms import TaskForm
 
@@ -10,8 +11,10 @@ def todolist(request):
     if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
+            Task.objects.all().update(priority = F('priority') + 1)
             newtask = Task(duration = form.cleaned_data['duration'],
             text=form.cleaned_data['text'], created=datetime.now())
+            newtask.priority = 1
             newtask.save()
             return HttpResponseRedirect('/todolist/')
     else:
