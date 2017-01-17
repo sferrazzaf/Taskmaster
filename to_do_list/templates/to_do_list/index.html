@@ -30,12 +30,15 @@
                     <thead>Stored tasks:</thead>
                         <tbody id=tasklist>
                             {% for task in tasks %}
-                                <tr class=task data-priority={{ task.priority }}>
-                                    <td >TASK: {{ task.text }}</td><td
+                                <tr class=task data-id={{ task.id }}
+                                data-priority={{ task.priority }}>
+                                    <td>TASK: {{ task.text }}</td><td
                                     >PRIORITY: {{ task.priority }}</td><td
                                     >CREATED: {{ task.created }}</td><td
                                     >DURATION: {{ task.duration }}</td><td
-                                    >COMPLETED: {{ task.completed }}</td>
+                                    >COMPLETED: {{ task.completed }}</td
+                                    ><td><button class=deletetask
+                                      >Delete Task</button></td>
                                 </tr>
                             {% endfor %}
                         </tbody>

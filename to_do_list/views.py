@@ -21,6 +21,12 @@ def todolist(request):
                      {'form': form, 'tasks': tasks}
         )
 
+def deletetask(request, taskid):
+        workingtask = Task.objects.get(id=taskid)
+        if request.method == 'DELETE':
+            workingtask.delete()
+        return HttpResponse("")
+
 def reorder(request):
     if request.method == 'POST':
         droppedItemPriority = request.POST.get('droppedItemPriority')
@@ -33,4 +39,9 @@ def reorder(request):
         print(nextItemPriority)
         print(previousItemPosition)
         print(previousItemPriority)
+        if previousItemPosition > droppedItemPosition:
+            print('task is ')
+        if previousItemPosition < droppedItemPosition:
+            print('less')
+
     return HttpResponse("blarg!")

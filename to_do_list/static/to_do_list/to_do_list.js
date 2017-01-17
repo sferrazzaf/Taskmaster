@@ -46,6 +46,9 @@ $(document).ready(function() {
           previousItem = ui.item.prev()[0]
           nextItem = ui.item.next()[0]
 
+          //change priority clientside
+
+          //submit updated item to server
           $.ajax("/todolist/reorder/", {
             type: 'POST',
             dataType: 'json',
@@ -60,8 +63,15 @@ $(document).ready(function() {
               nextItem.getAttribute('data-priority')
             }
           })
-          //
-        }
-        );
+        });
+
+    $(".deletetask").click(function() {
+        var taskid = ($(this).parent().parent()[0].getAttribute('data-id'))
+        $.ajax({
+          url: "delete/" + taskid + "/",
+          type: 'DELETE'
+        })
+        location.reload();
+      });
 
 });
