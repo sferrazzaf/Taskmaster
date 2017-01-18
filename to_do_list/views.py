@@ -28,7 +28,7 @@ def deletetask(request, taskid):
         workingtask = Task.objects.get(id=taskid)
         if request.method == 'DELETE':
             workingtask.delete()
-        return HttpResponse("")
+        return HttpResponse(status=204)
 
 def reorder(request):
     if request.method == 'POST':
@@ -45,4 +45,4 @@ def reorder(request):
             Task.objects.filter(priority__gte=nextItemPriority).filter(priority__lte=droppedItemPriority).update(priority = F('priority') +1)
         droppedtask.priority = droppedItemPosition
         droppedtask.save()
-    return HttpResponse("")
+    return HttpResponse(status=202)
