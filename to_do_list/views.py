@@ -38,22 +38,11 @@ def reorder(request):
         nextItemPosition = request.POST.get('nextItemPosition')
         previousItemPriority = request.POST.get('previousItemPriority')
         previousItemPosition = request.POST.get('previousItemPosition')
-        print(nextItemPosition)
-        print(nextItemPriority)
-        print(previousItemPosition)
-        print(previousItemPriority)
-        print(droppedItemPosition)
-        print(droppedItemPriority)
+        droppedtask = Task.objects.get(priority = droppedItemPriority)
         if previousItemPriority > droppedItemPriority:
-            droppedtask = Task.objects.get(priority = droppedItemPriority)
             Task.objects.filter(priority__lte=previousItemPriority).filter(priority__gte=droppedItemPriority).update(priority = F('priority') -1)
-            droppedtask.priority = droppedItemPosition
-            droppedtask.save()
-            print('task was moved downward. Fix tasks above.')
         if nextItemPriority < droppedItemPriority:
-            droppedtask = Task.objects.get(priority = droppedItemPriority)
             Task.objects.filter(priority__gte=nextItemPriority).filter(priority__lte=droppedItemPriority).update(priority = F('priority') +1)
-            droppedtask.priority = droppedItemPosition
-            droppedtask.save()
-            print('task was moved upward. Fix tasks below.')
-    return HttpResponse("blarg!")
+        droppedtask.priority = droppedItemPosition
+        droppedtask.save()
+    return HttpResponse("")
