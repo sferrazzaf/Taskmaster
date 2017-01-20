@@ -28,6 +28,7 @@ def deletetask(request, taskid):
         workingtask = Task.objects.get(id=taskid)
         if request.method == 'DELETE':
             workingtask.delete()
+            #Can this operation be done on a queryset? How can it be enumerated?
             for index, task in enumerate(Task.objects.order_by('priority')):
                 task.priority = index +1
                 task.save()
@@ -38,13 +39,11 @@ def reorder(request):
         droppedItemPriority = request.POST.get('droppedItemPriority')
         droppedItemPosition = request.POST.get('droppedItemPosition')
         nextItemPriority = request.POST.get('nextItemPriority')
-        nextItemPosition = request.POST.get('nextItemPosition')
         previousItemPriority = request.POST.get('previousItemPriority')
-        previousItemPosition = request.POST.get('previousItemPosition')
         droppedtask = Task.objects.get(priority = droppedItemPriority)
         if previousItemPriority > droppedItemPriority:
             Task.objects.filter(priority__lte=previousItemPriority).filter(priority__gte=droppedItemPriority).update(priority = F('priority') -1)
-        if nextItemPriority < droppedItemPriority:
+        else:
             Task.objects.filter(priority__gte=nextItemPriority).filter(priority__lte=droppedItemPriority).update(priority = F('priority') +1)
         droppedtask.priority = droppedItemPosition
         droppedtask.save()

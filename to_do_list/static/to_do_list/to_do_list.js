@@ -38,15 +38,10 @@ $(document).ready(function() {
         .on("sortupdate", function(event, ui){
           //set droppedItem, nextItem, and previousItem
           droppedItem = ui.item
-          console.log(droppedItem)
           droppedItemPriority = droppedItem.attr('data-priority')
-          console.log("droppedItemPriority = " + droppedItemPriority)
           droppedItemPosition = parseInt(droppedItem.index())+1
-          console.log("droppedItemPosition = " + droppedItemPosition)
           previousItem = ui.item.prev()[0]
           nextItem = ui.item.next()[0]
-
-          //change priority clientside
 
           //submit updated item to server
           $.ajax("/todolist/reorder/", {
@@ -55,15 +50,21 @@ $(document).ready(function() {
             data: {
               droppedItemPriority: droppedItemPriority,
               droppedItemPosition: droppedItemPosition,
-              previousItemPosition: previousItem && previousItem.rowIndex+1,
               previousItemPriority: previousItem &&
               previousItem.getAttribute('data-priority'),
-              nextItemPosition: nextItem && nextItem.rowIndex + 1,
               nextItemPriority: nextItem &&
               nextItem.getAttribute('data-priority')
             }
           })
+
+          //change priority clientside
+          $(".task").each(function() {
+            $(this).attr("data-priority", ($(this)[0].rowIndex +1))
+            $(this).children().filter(".priority").text("PRIORITY: " + ($(this)[0].rowIndex +1))
+          });
         });
+
+
 
     $(".deletetask").click(function() {
         var taskid = ($(this).parent().parent()[0].getAttribute('data-id'))
