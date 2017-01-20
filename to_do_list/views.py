@@ -28,6 +28,9 @@ def deletetask(request, taskid):
         workingtask = Task.objects.get(id=taskid)
         if request.method == 'DELETE':
             workingtask.delete()
+            for index, task in enumerate(Task.objects.order_by('priority')):
+                task.priority = index +1
+                task.save()
         return HttpResponse(status=204)
 
 def reorder(request):
