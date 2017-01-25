@@ -64,8 +64,16 @@ $(document).ready(function() {
           });
         });
 
+    //begin working on task
+    $(".workontask").click(function() {
+        var tasktext = $(this).parent().parent().children(".taskname").text()
+        $("#currenttask").text(tasktext)
+        console.log($("#taskstartedtime").text($.now()))
+        //$("#taskstartedtime").text($now())
+      });
 
 
+    //delete task
     $(".deletetask").click(function() {
         var taskid = ($(this).parent().parent()[0].getAttribute('data-id'))
         $.ajax({

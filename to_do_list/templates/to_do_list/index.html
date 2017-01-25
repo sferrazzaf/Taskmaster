@@ -17,13 +17,12 @@
                     {{ form }}
                     <input type="submit" value="Submit" />
                 </form>
-                <div id=currenttask>
-                    Current task:
-                    <br>
-                    Started time:
+                <div id=displayedtask>
+                  <div id=currenttask>Current task: None</div>
+                  <div id=taskstartedtime>Started time: N/A</div>
                 </div>
-                <button id=pausebutton>Pause Task</button>
-                <button id=endbutton>End Task</button>
+                <button id=pausetask>Pause Task</button>
+                <button id=finishtask>Finish Task</button>
             </div>
             <div>
                 <table style="100%">
@@ -32,11 +31,14 @@
                             {% for task in tasks %}
                                 <tr class=task data-id={{ task.id }}
                                 data-priority={{ task.priority }}>
-                                    <td>TASK: {{ task.text }}</td><td class=priority
+                                    <td class=taskname>{{ task.text }}</td><td
+                                      class=priority
                                     >PRIORITY: {{ task.priority }}</td><td
                                     >CREATED: {{ task.created }}</td><td
                                     >DURATION: {{ task.duration }}</td><td
                                     >COMPLETED: {{ task.completed }}</td
+                                    ><td><button class=workontask
+                                      >Work on Task</button></td>
                                     ><td><button class=deletetask
                                       >Delete Task</button></td>
                                 </tr>
