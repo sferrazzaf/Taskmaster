@@ -8,6 +8,10 @@ from django.db.models import F
 from .forms import TaskForm
 
 def movetask(taskid, movedto):
+    for task in Task.objects.all():
+        print("{},{},{}").format(task.text, task.id, task.priority)
+    print("taskid = {}").format(taskid)
+    print("movedto = {}").format(movedto)
     movedtask = Task.objects.get(id=taskid)
     if movedtask.priority > movedto:
         Task.objects.filter(priority__gte=movedto).filter(
@@ -19,6 +23,8 @@ def movetask(taskid, movedto):
                 priority = F('priority') -1)
     movedtask.priority = movedto
     movedtask.save()
+    for task in Task.objects.all():
+        print("{},{},{}").format(task.text, task.id, task.priority)
 
 def todolist(request):
     if request.method == 'POST':

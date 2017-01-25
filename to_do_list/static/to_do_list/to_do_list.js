@@ -38,7 +38,8 @@ $(document).ready(function() {
         .on("sortupdate", function(event, ui){
           //set taskid and movedto location
           taskid = ui.item.attr('data-id')
-          movedto = parseInt(ui.item.index()) +1
+          movedto = parseInt(ui.item.index()) + 1
+          console.log(movedto)
 
           //submit updated item to server
           $.ajax("/todolist/reorder/", {
@@ -51,10 +52,10 @@ $(document).ready(function() {
           })
 
           //change priority clientside
-          $(".task").each(function() {
-            $(this).attr("data-priority", ($(this)[0].rowIndex +1))
-            $(this).children().filter(".priority").text("PRIORITY: " + ($(this)[0].rowIndex +1))
-          });
+        //   $(".task").each(function() {
+        //     $(this).attr("data-priority", ($(this)[0].rowIndex +1))
+        //     $(this).children().filter(".priority").text("PRIORITY: " + ($(this)[0].rowIndex +1))
+        //   });
         });
 
 

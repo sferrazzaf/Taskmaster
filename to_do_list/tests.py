@@ -14,11 +14,23 @@ class TaskMethodTests(TestCase):
         self.assertEqual(Task.objects.get(id=x.id).priority, 2)
         self.assertEqual(Task.objects.get(id=y.id).priority, 3)
         self.assertEqual(Task.objects.get(id=z.id).priority, 1)
-        movetask(z.id, 3)
-        self.assertEqual(Task.objects.get(id=x.id).priority, 1)
-        self.assertEqual(Task.objects.get(id=y.id).priority, 2)
-        self.assertEqual(Task.objects.get(id=z.id).priority, 3)
+        x.priority = 1
+        x.save()
+        y.priority = 2
+        y.save()
+        z.priority = 3
+        z.save()
         movetask(x.id, 3)
         self.assertEqual(Task.objects.get(id=x.id).priority, 3)
         self.assertEqual(Task.objects.get(id=y.id).priority, 1)
         self.assertEqual(Task.objects.get(id=z.id).priority, 2)
+        x.priority = 1
+        x.save()
+        y.priority = 2
+        y.save()
+        z.priority = 3
+        z.save()
+        movetask(y.id, 1)
+        self.assertEqual(Task.objects.get(id=x.id).priority, 2)
+        self.assertEqual(Task.objects.get(id=y.id).priority, 1)
+        self.assertEqual(Task.objects.get(id=z.id).priority, 3)
