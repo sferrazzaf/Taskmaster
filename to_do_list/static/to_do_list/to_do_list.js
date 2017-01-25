@@ -36,24 +36,17 @@ $(document).ready(function() {
     //include jQuery-ui's sortable widget
     $("#tasklist").sortable()
         .on("sortupdate", function(event, ui){
-          //set droppedItem, nextItem, and previousItem
-          droppedItem = ui.item
-          droppedItemPriority = droppedItem.attr('data-priority')
-          droppedItemPosition = parseInt(droppedItem.index())+1
-          previousItem = ui.item.prev()[0]
-          nextItem = ui.item.next()[0]
+          //set taskid and movedto location
+          taskid = ui.item.attr('data-id')
+          movedto = parseInt(ui.item.index()) +1
 
           //submit updated item to server
           $.ajax("/todolist/reorder/", {
             type: 'POST',
             dataType: 'json',
             data: {
-              droppedItemPriority: droppedItemPriority,
-              droppedItemPosition: droppedItemPosition,
-              previousItemPriority: previousItem &&
-              previousItem.getAttribute('data-priority'),
-              nextItemPriority: nextItem &&
-              nextItem.getAttribute('data-priority')
+              taskid: taskid,
+              movedto: movedto
             }
           })
 
@@ -64,12 +57,31 @@ $(document).ready(function() {
           });
         });
 
+
+
     //begin working on task
     $(".workontask").click(function() {
         var tasktext = $(this).parent().parent().children(".taskname").text()
         $("#currenttask").text(tasktext)
-        console.log($("#taskstartedtime").text($.now()))
-        //$("#taskstartedtime").text($now())
+        console.log($("#taskstartedtime").text("Started Time: " + $.now()))
+        var droppedItem = $(this).parent().parent()
+        console.log($(this).parent().parent())
+
+        // change priority clientside
+        droppedItem.attr("data-priority", 1)
+        droppedItem.children().filter(".priority").text("PRIORITY: 1")
+
+        //make task top priority
+      //   $.ajax("/todolist/reorder/", {
+      //     type: 'POST',
+      //     dataType: 'json',
+      //     data: {
+      //       droppedItemPriority: droppedItem.getAttribute('data-priority'),
+      //       droppedItemPosition: 1,
+      //       nextItemPriority: 2
+      //     }
+      //   });
+      //
       });
 
 

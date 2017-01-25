@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
+from django.db.models import F
 
 from django.db import models
-
 
 class Task(models.Model):
     text = models.CharField(max_length=200)

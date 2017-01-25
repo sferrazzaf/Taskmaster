@@ -2,10 +2,23 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from .models import *
-from datetime import datetime
+from django.utils import timezone
 from django.db.models import F
 
 from .forms import TaskForm
+
+def movetask(taskid, movedto):
+    movedtask = Task.objects.get(id=taskid)
+    if movedtask.priority > movedto:
+        Task.objects.filter(priority__gte=movedto).filter(
+            priority__lte=movedtask.priority).update(
+                priority = F('priority') +1)
+    else:
+        Task.objects.filter(priority__lte=movedto).filter(
+            priority__gte=movedtask.priority).update(
+                priority = F('priority') -1)
+    movedtask.priority = movedto
+    movedtask.save()
 
 def todolist(request):
     if request.method == 'POST':
@@ -13,7 +26,7 @@ def todolist(request):
         if form.is_valid():
             Task.objects.all().update(priority = F('priority') + 1)
             newtask = Task(duration = form.cleaned_data['duration'],
-            text=form.cleaned_data['text'], created=datetime.now())
+            text=form.cleaned_data['text'], created=timezone.now())
             newtask.priority = 1
             newtask.save()
             return HttpResponseRedirect('/todolist/')
@@ -25,26 +38,17 @@ def todolist(request):
         )
 
 def deletetask(request, taskid):
-        workingtask = Task.objects.get(id=taskid)
         if request.method == 'DELETE':
+            workingtask = Task.objects.get(id=taskid)
+            priority = workingtask.priority
             workingtask.delete()
-            #Can this operation be done on a queryset? How can it be enumerated?
-            for index, task in enumerate(Task.objects.order_by('priority')):
-                task.priority = index +1
-                task.save()
+            Task.objects.filter(priority__gte=priority).update(
+                priority = F('priority')-1)
         return HttpResponse(status=204)
 
 def reorder(request):
     if request.method == 'POST':
-        droppedItemPriority = request.POST.get('droppedItemPriority')
-        droppedItemPosition = request.POST.get('droppedItemPosition')
-        nextItemPriority = request.POST.get('nextItemPriority')
-        previousItemPriority = request.POST.get('previousItemPriority')
-        droppedtask = Task.objects.get(priority = droppedItemPriority)
-        if previousItemPriority > droppedItemPriority:
-            Task.objects.filter(priority__lte=previousItemPriority).filter(priority__gte=droppedItemPriority).update(priority = F('priority') -1)
-        else:
-            Task.objects.filter(priority__gte=nextItemPriority).filter(priority__lte=droppedItemPriority).update(priority = F('priority') +1)
-        droppedtask.priority = droppedItemPosition
-        droppedtask.save()
+        taskid = request.POST.get('taskid')
+        movedto = request.POST.get('movedto')
+        movetask(taskid, movedto)
     return HttpResponse(status=202)
