@@ -9,15 +9,10 @@ class Task(models.Model):
     duration = models.DurationField('estimated duration', blank=True, null=True)
     created = models.DateTimeField('date created')
     completed = models.DateTimeField('date completed', blank=True, null=True)
+    current = models.BooleanField(default=0)
 
     def __str__(self):
         return self.text
-
-class CurrentTask(models.Model):
-    task = models.ForeignKey(Task, blank=True, null=True)
-
-    def __str__(self):
-        return self.task.text        
 
 class Tasklist(models.Model):
     name = models.CharField(max_length=100)
