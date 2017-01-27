@@ -34,29 +34,31 @@ $(document).ready(function() {
     //end csrftoken setup
 
     //include jQuery-ui's sortable widget
-    $("#tasklist").sortable()
-        .on("sortupdate", function(event, ui){
-          //set taskid and movedto location
-          taskid = ui.item.attr('data-id')
-          movedto = parseInt(ui.item.index()) + 1
-          console.log(movedto)
+    $("#tasklist").sortable({
+      placeholder: "sortable-placeholder"
+    })
+    .on("sortupdate", function(event, ui){
+      //set taskid and movedto location
+      taskid = ui.item.attr('data-id')
+      movedto = parseInt(ui.item.index()) + 1
+      console.log(movedto)
 
-          //submit updated item to server
-          $.ajax("/todolist/reorder/", {
-            type: 'POST',
-            dataType: 'json',
-            data: {
-              taskid: taskid,
-              movedto: movedto
-            }
-          })
+      //submit updated item to server
+      $.ajax("/todolist/reorder/", {
+        type: 'POST',
+        dataType: 'json',
+        data: {
+          taskid: taskid,
+          movedto: movedto
+        }
+      })
 
-          //change priority clientside
-          $(".task").each(function() {
-            $(this).attr("data-priority", ($(this)[0].rowIndex +1))
-            $(this).children().filter(".priority").text("PRIORITY: " + ($(this)[0].rowIndex +1))
-          });
-        });
+      //change priority clientside
+      $(".task").each(function() {
+        $(this).attr("data-priority", ($(this)[0].rowIndex +1))
+        $(this).children().filter(".priority").text("PRIORITY: " + ($(this)[0].rowIndex +1))
+      });
+    });
 
 
 

@@ -10,42 +10,40 @@
     <title>TaskMaster 2017</title>
 </head>
     <body>
-        <div id=test>
-            <div id=header>
-                <form id="entertask" action="/todolist/" method="post">
-                    {% csrf_token %}
-                    {{ form }}
-                    <input type="submit" value="Submit" />
-                </form>
-                <div id=displayedtask>
-                  <div id=currenttask>Current task: None</div>
-                  <div id=taskstartedtime>Started time: N/A</div>
-                </div>
-                <button id=pausetask>Pause Task</button>
-                <button id=finishtask>Finish Task</button>
+        <div id=header>
+            <form id="entertask" action="/todolist/" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="Submit" />
+            </form>
+            <div id=displayedtask>
+              <div id=currenttask>Current task: None</div>
+              <div id=taskstartedtime>Started time: N/A</div>
             </div>
-            <div>
-                <table style="100%">
-                    <thead>Stored tasks:</thead>
-                        <tbody id=tasklist>
-                            {% for task in tasks %}
-                                <tr class=task data-id={{ task.id }}
-                                data-priority={{ task.priority }}>
-                                    <td class=taskname>{{ task.text }}</td><td
-                                      class=priority
-                                    >PRIORITY: {{ task.priority }}</td><td
-                                    >CREATED: {{ task.created }}</td><td
-                                    >DURATION: {{ task.duration }}</td><td
-                                    >COMPLETED: {{ task.completed }}</td
-                                    ><td><button class=workontask
-                                      >Work on Task</button></td>
-                                    ><td><button class=deletetask
-                                      >Delete Task</button></td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                </table>
-            </div>
+            <button id=pausetask>Pause Task</button>
+            <button id=finishtask>Finish Task</button>
+        </div>
+        <div>
+            <table style="100%">
+                <thead>Stored tasks:</thead>
+                    <tbody id=tasklist>
+                        {% for task in tasks %}
+                            <tr class=task data-id={{ task.id }}
+                            data-priority={{ task.priority }}>
+                                <td class=taskname>{{ task.text }}</td><td
+                                  class=priority
+                                >PRIORITY: {{ task.priority }}</td><td
+                                >CREATED: {{ task.created }}</td><td
+                                >DURATION: {{ task.duration }}</td><td
+                                >COMPLETED: {{ task.completed }}</td
+                                ><td><button class=workontask
+                                  >Work on Task</button></td>
+                                ><td><button class=deletetask
+                                  >Delete Task</button></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+            </table>
         </div>
 
     </body>

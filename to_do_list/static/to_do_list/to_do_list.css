@@ -3,11 +3,12 @@ body {
   color: white;
 }
 
-#test * {
-    padding: 3px;
-    border: solid;
-    border-width: 5px;
-    border-color: red;
+table {
+  border-collapse: collapse;
+}
+
+td {
+  padding: 3px;
 }
 
 #entertask {
@@ -28,6 +29,17 @@ body {
 #endbutton {
 }
 
+.sortable-placeholder {
+  height: 75px;
+}
+
 .timebox {
     width: 75px;
+}
+
+.task {
+  border: solid;
+  border-width: 5px;
+  border-color: red;
+  height: 75px;
 }
