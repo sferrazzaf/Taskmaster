@@ -13,6 +13,12 @@ class Task(models.Model):
     def __str__(self):
         return self.text
 
+class CurrentTask(models.Model):
+    task = models.ForeignKey(Task, blank=True, null=True)
+
+    def __str__(self):
+        return self.task.text        
+
 class Tasklist(models.Model):
     name = models.CharField(max_length=100)
 
@@ -23,9 +29,3 @@ class Starttask(models.Model):
 class Stoptask(models.Model):
     task = models.ForeignKey(Task)
     time = models.DateTimeField('time stopped')
-
-class Idlestart(models.Model):
-    time = models.DateTimeField('idling started')
-
-class Idlestop(models.Model):
-    time = models.DateTimeField('idling stopped')
