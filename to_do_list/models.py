@@ -24,7 +24,9 @@ class Currenttask(models.Model):
 class Starttask(models.Model):
     task = models.ForeignKey(Task)
     time = models.DateTimeField('time started')
+    tasklist = models.ForeignKey(Tasklist)
 
 class Stoptask(models.Model):
     task = models.ForeignKey(Task)
     time = models.DateTimeField('time stopped')
+    tasklist = models.ForeignKey(Tasklist)
