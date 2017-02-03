@@ -61,31 +61,15 @@ $(document).ready(function() {
     });
 
 
-
     //begin working on task
-    $(".workontask").click(function() {
-        var tasktext = $(this).parent().parent().children(".taskname").text()
-        $("#currenttask").text(tasktext)
-        console.log($("#taskstartedtime").text("Started Time: " + $.now()))
-        var droppedItem = $(this).parent().parent()
-        console.log($(this).parent().parent())
-
-        // change priority clientside
-        droppedItem.attr("data-priority", 1)
-        droppedItem.children().filter(".priority").text("PRIORITY: 1")
-
-        //make task top priority
-      //   $.ajax("/todolist/reorder/", {
-      //     type: 'POST',
-      //     dataType: 'json',
-      //     data: {
-      //       droppedItemPriority: droppedItem.getAttribute('data-priority'),
-      //       droppedItemPosition: 1,
-      //       nextItemPriority: 2
-      //     }
-      //   });
-      //
-      });
+    // $(".workontask").click(function() {
+    //     var tasktext = $(this).parent().parent().children(".taskname").text()
+    //     $("#currenttask").text(tasktext)
+    //     console.log($("#taskstartedtime").text("Started Time: " + $.now()))
+    //     var droppedItem = $(this).parent().parent()
+    //     console.log($(this).parent().parent())
+    //
+    //   });
 
 
     //delete task

@@ -1,6 +1,5 @@
 {% load staticfiles %}
 
-
 <html>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -23,9 +22,14 @@
             <button id=pausetask>Pause Task</button>
             <button id=finishtask>Finish Task</button>
         </div>
-        <div>
-            <table style="100%">
-                <thead>Stored tasks:</thead>
+          <table style="100%">
+                <thead>
+                  <th>Task</th>
+                  <th>Priority</th>
+                  <th>Date Created</th>
+                  <th>Est. Duration</th>
+                  <th>Date Completed</th>
+                </thead>
                     <tbody id=tasklist>
                         {% for task in tasks %}
                             <tr class=task data-id={{ task.id }}
@@ -36,8 +40,10 @@
                                 >CREATED: {{ task.created }}</td><td
                                 >DURATION: {{ task.duration }}</td><td
                                 >COMPLETED: {{ task.completed }}</td
-                                ><td><button class=workontask
-                                  >Work on Task</button></td>
+                                ><td><form action="togglecurrent/" method="POST">{%csrf_token %}
+                                  <input type="hidden" name="taskid" value="{{ task.id }}"
+                                  ><input type="submit" value="Work on Task">
+                                </form></td>
                                 ><td><button class=deletetask
                                   >Delete Task</button></td>
                             </tr>

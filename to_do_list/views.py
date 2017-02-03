@@ -52,3 +52,8 @@ def reorder(request):
         movedto = int(request.POST.get('movedto'))
         movetask(taskid, movedto)
     return HttpResponse(status=202)
+
+def togglecurrent(request):
+    if request.method =='POST':
+        workingtask = request.POST.get('taskid')
+    return HttpResponse(status=202)
