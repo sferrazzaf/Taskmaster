@@ -32,9 +32,15 @@ def todolist(request, tasklist):
             return HttpResponseRedirect('/todolist/')
     else:
         form = TaskForm()
-        tasks = Task.objects.get(tasklist=tasklist).order_by('priority')
+        thislist = Tasklist.objects.get(id=tasklist)
+        currenttask = Currenttask.objects.get(tasklist=thislist.id)
+        tasks = Task.objects.filter(tasklist=tasklist).order_by('priority')
         return render(request, 'to_do_list/index.html',
-                     {'form': form, 'tasks': tasks}
+                     {'form': form,
+                     'tasks': tasks,
+                     'tasklist': thislist,
+                     'currenttask': currenttask
+                     }
         )
 
 def deletetask(request, taskid):

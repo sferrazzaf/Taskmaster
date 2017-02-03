@@ -10,14 +10,15 @@
 </head>
     <body>
         <div id=header>
+            <center><h1>{{ tasklist.name }} </center>
             <form id="entertask" action="/todolist/" method="post">
                 {% csrf_token %}
                 {{ form }}
                 <input type="submit" value="Submit" />
             </form>
             <div id=displayedtask>
-              <div id=currenttask>Current task: None</div>
-              <div id=taskstartedtime>Started time: N/A</div>
+              <div id=currenttask>Current task: {{ currenttask.task.text }}</div>
+              <div id=taskstartedtime>Started time: {{ currenttask.task.created }}</div>
             </div>
             <button id=pausetask>Pause Task</button>
             <button id=finishtask>Finish Task</button>
