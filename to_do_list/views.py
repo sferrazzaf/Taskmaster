@@ -20,7 +20,7 @@ def movetask(taskid, movedto):
     movedtask.priority = movedto
     movedtask.save()
 
-def todolist(request):
+def todolist(request, tasklist):
     if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
@@ -32,7 +32,7 @@ def todolist(request):
             return HttpResponseRedirect('/todolist/')
     else:
         form = TaskForm()
-        tasks = Task.objects.all().order_by('priority')
+        tasks = Task.objects.get(tasklist=tasklist).order_by('priority')
         return render(request, 'to_do_list/index.html',
                      {'form': form, 'tasks': tasks}
         )
@@ -56,5 +56,5 @@ def reorder(request):
 def togglecurrent(request):
     if request.method =='POST':
         taskid = request.POST.get('taskid')
-        CurrentTask.task = Task.objects.get(id=taskid)
+        Currenttask.task = Task.objects.get(id=taskid)
     return HttpResponse(status=202)
