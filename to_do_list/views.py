@@ -33,13 +33,11 @@ def todolist(request, tasklist):
     else:
         form = TaskForm()
         thislist = Tasklist.objects.get(id=tasklist)
-        currenttask = Currenttask.objects.get(tasklist=thislist.id)
         tasks = Task.objects.filter(tasklist=tasklist).order_by('priority')
         return render(request, 'to_do_list/index.html',
                      {'form': form,
                      'tasks': tasks,
                      'tasklist': thislist,
-                     'currenttask': currenttask
                      }
         )
 
