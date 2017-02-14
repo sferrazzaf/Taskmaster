@@ -30,34 +30,35 @@ def todolist(request, tasklistid):
                      {'form': form,
                      'tasks': tasks,
                      'tasklist': thislist,
-                     'currenttask': currenttask
+                     'currenttask': currenttask[0]
                      }
         )
 
 def deletetask(request, tasklist, taskid):
-        if request.method == 'DELETE':
-            workingtask = Task.objects.get(id=taskid)
-            priority = workingtask.priority
-            workingtask.delete()
-            Task.objects.filter(priority__gte=priority).update(
-                priority = F('priority')-1)
-        return HttpResponse(status=204)
+    if request.method == 'DELETE':
+        workingtask = Task.objects.get(id=taskid)
+        priority = workingtask.priority
+        workingtask.delete()
+        Task.objects.filter(priority__gte=priority).update(
+            priority = F('priority')-1)
+    return HttpResponse(status=204)
 
 def reorder(request, tasklistid):
     if request.method == 'POST':
         taskid = request.POST.get('taskid')
+        task = Task.objects.get(id=taskid)
         movedto = int(request.POST.get('movedto'))
         tasklist = Tasklist.objects.get(id=tasklistid)
-        tasklist.movetask(taskid, movedto)
+        tasklist.movetask(task, movedto)
     return HttpResponse(status=202)
 
 def togglecurrent(request, tasklistid):
     if request.method =='POST':
         tasklist = Tasklist.objects.get(id=tasklistid)
         taskid = request.POST.get('taskid')
-        tasklist.movetask(taskid, 1)
-        currenttask = Task.objects.get(id=taskid)
+        task = Task.objects.get(id=taskid)
+        tasklist.movetask(task, 1)
         Task.objects.filter(tasklist=tasklist).update(current=False)
-        currenttask.current = True
-        currenttask.save()
+        task.current = True
+        task.save()
     return HttpResponseRedirect('/todolist/' + tasklistid)

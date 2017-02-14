@@ -8,8 +8,8 @@ class Tasklist(models.Model):
     def __str__(self):
         return self.text
 
-    def movetask(self, taskid, movedto):
-        movedtask = Task.objects.get(id=taskid)
+    #takes task instead of taskid in order to prevent mid-air collisions
+    def movetask(self, movedtask, movedto):
         if movedtask.priority > movedto:
             Task.objects.filter(priority__gte=movedto).filter(
                 priority__lte=movedtask.priority).update(
