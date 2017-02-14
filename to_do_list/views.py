@@ -28,20 +28,25 @@ def todolist(request, tasklist):
             newtask = Task(duration = form.cleaned_data['duration'],
             text=form.cleaned_data['text'], created=timezone.now())
             newtask.priority = 1
+            newtask.tasklist_id=tasklist
             newtask.save()
-            return HttpResponseRedirect('/todolist/')
+            return HttpResponseRedirect('/todolist/' + tasklist)
     else:
         form = TaskForm()
         thislist = Tasklist.objects.get(id=tasklist)
+        currenttask = Task.objects.filter(tasklist=thislist.id).filter(current=True)
+        if not currenttask:
+            currenttask = "None"
         tasks = Task.objects.filter(tasklist=tasklist).order_by('priority')
         return render(request, 'to_do_list/index.html',
                      {'form': form,
                      'tasks': tasks,
                      'tasklist': thislist,
+                     'currenttask': currenttask
                      }
         )
 
-def deletetask(request, taskid):
+def deletetask(request, tasklist, taskid):
         if request.method == 'DELETE':
             workingtask = Task.objects.get(id=taskid)
             priority = workingtask.priority
@@ -50,15 +55,19 @@ def deletetask(request, taskid):
                 priority = F('priority')-1)
         return HttpResponse(status=204)
 
-def reorder(request):
+def reorder(request, tasklist):
     if request.method == 'POST':
         taskid = request.POST.get('taskid')
         movedto = int(request.POST.get('movedto'))
         movetask(taskid, movedto)
     return HttpResponse(status=202)
 
-def togglecurrent(request):
+def togglecurrent(request, tasklistid):
     if request.method =='POST':
+        currenttasklist = Tasklist.objects.get(id=tasklistid)
         taskid = request.POST.get('taskid')
-        Currenttask.task = Task.objects.get(id=taskid)
+        currenttask = Task.objects.get(id=taskid)
+        Task.objects.filter(tasklist=currenttasklist).update(current=False)
+        currenttask.current = True
+        currenttask.save()
     return HttpResponse(status=202)

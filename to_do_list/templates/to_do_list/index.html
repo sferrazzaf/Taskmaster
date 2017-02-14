@@ -10,20 +10,19 @@
 </head>
     <body>
         <div id=header>
-            <center><h1>{{ tasklist.name }} </center>
-            <form id="entertask" action="/todolist/" method="post">
+            <center><h1>{{ tasklist.name }} </h1></center>
+            <form id="entertask" action="/todolist/{{ tasklist.id }}/" method="post">
                 {% csrf_token %}
                 {{ form }}
                 <input type="submit" value="Submit" />
             </form>
             <div id=displayedtask>
-              <div id=currenttask>Current task: {{ currenttask.task.text }}</div>
-              <div id=taskstartedtime>Started time: {{ currenttask.task.created }}</div>
+              <div id=currenttask>Current task: {{ currenttask.text }}</div>
+              <div id=taskstartedtime>Started time: {{ currenttask.created }}</div>
             </div>
             <button id=pausetask>Pause Task</button>
             <button id=finishtask>Finish Task</button>
-        </div>
-          <table style="100%">
+          </div><table style="100%">
                 <thead>
                   <th>Task</th>
                   <th>Priority</th>
@@ -34,7 +33,8 @@
                     <tbody id=tasklist>
                         {% for task in tasks %}
                             <tr class=task data-id={{ task.id }}
-                            data-priority={{ task.priority }}>
+                            data-priority={{ task.priority }}
+                            data-tasklist={{ task.tasklist.id }}>
                                 <td class=taskname>{{ task.text }}</td><td
                                   class=priority
                                 >PRIORITY: {{ task.priority }}</td><td
@@ -44,7 +44,7 @@
                                 ><td><form action="togglecurrent/" method="POST">{%csrf_token %}
                                   <input type="hidden" name="taskid" value="{{ task.id }}"
                                   ><input type="submit" value="Work on Task">
-                                </form></td>
+                                </form></td
                                 ><td><button class=deletetask
                                   >Delete Task</button></td>
                             </tr>

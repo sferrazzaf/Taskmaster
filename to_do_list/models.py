@@ -3,6 +3,9 @@ from django.db import models
 class Tasklist(models.Model):
     name = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.text
+
 class Task(models.Model):
     text = models.CharField(max_length=200)
     priority = models.IntegerField('priority', blank=True, null=True)

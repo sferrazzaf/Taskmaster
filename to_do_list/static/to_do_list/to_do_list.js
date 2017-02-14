@@ -39,12 +39,12 @@ $(document).ready(function() {
     })
     .on("sortupdate", function(event, ui){
       //set taskid and movedto location
-      taskid = ui.item.attr('data-id')
-      movedto = parseInt(ui.item.index()) + 1
-      console.log(movedto)
+      var taskid = ui.item.attr('data-id')
+      var tasklist = ui.item.attr('data-tasklist')
+      var movedto = parseInt(ui.item.index()) + 1
 
       //submit updated item to server
-      $.ajax("/todolist/reorder/", {
+      $.ajax("/todolist/" + tasklist + "/reorder/", {
         type: 'POST',
         dataType: 'json',
         data: {
@@ -63,12 +63,8 @@ $(document).ready(function() {
 
     //begin working on task
     // $(".workontask").click(function() {
-    //     var tasktext = $(this).parent().parent().children(".taskname").text()
-    //     $("#currenttask").text(tasktext)
-    //     console.log($("#taskstartedtime").text("Started Time: " + $.now()))
-    //     var droppedItem = $(this).parent().parent()
-    //     console.log($(this).parent().parent())
-    //
+    //     var taskid = $(this).parent().parent().children(".taskname").text()
+    //     console.log(taskid)
     //   });
 
 
