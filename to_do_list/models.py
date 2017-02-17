@@ -4,11 +4,12 @@ from django.db.models import F
 
 class Tasklist(models.Model):
     name = models.CharField(max_length=100)
+    currenttaskid = models.PositiveIntegerField(blank=True, null=True)
 
-    def __str__(self):
-        return self.text
+    def __unicode__(self):
+        return self.name
 
-    #takes task instead of taskid in order to prevent mid-air collisions
+    #takes task instead of taskid in to help prevent mid-air collisions
     def movetask(self, movedtask, movedto):
         if movedtask.priority > movedto:
             Task.objects.filter(priority__gte=movedto).filter(
@@ -29,9 +30,8 @@ class Task(models.Model):
     created = models.DateTimeField('date created')
     completed = models.DateTimeField('date completed', blank=True, null=True)
     tasklist = models.ForeignKey(Tasklist)
-    current = models.BooleanField(default=False)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.text
 
 class Starttask(models.Model):
