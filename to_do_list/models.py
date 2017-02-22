@@ -4,7 +4,9 @@ from django.db.models import F
 
 class Tasklist(models.Model):
     name = models.CharField(max_length=100)
-    currenttaskid = models.PositiveIntegerField(blank=True, null=True)
+    currenttask = models.OneToOneField(
+    'Task', related_name="task", blank=True, null=True
+     )
 
     def __unicode__(self):
         return self.name
