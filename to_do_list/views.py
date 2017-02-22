@@ -22,7 +22,7 @@ def todolist(request, tasklistid):
     else:
         form = TaskForm()
         thislist = Tasklist.objects.get(id=tasklistid)
-        currenttask = Task.objects.filter(tasklist=thislist.id).filter(current=True)
+        currenttask = thislist.currenttask
         if not currenttask:
             currenttask = "None"
         tasks = Task.objects.filter(tasklist=tasklistid).order_by('priority')
@@ -30,7 +30,7 @@ def todolist(request, tasklistid):
                      {'form': form,
                      'tasks': tasks,
                      'tasklist': thislist,
-                     'currenttask': currenttask[0]
+                     'currenttask': currenttask
                      }
         )
 
@@ -58,7 +58,6 @@ def togglecurrent(request, tasklistid):
         taskid = request.POST.get('taskid')
         task = Task.objects.get(id=taskid)
         tasklist.movetask(task, 1)
-        Task.objects.filter(tasklist=tasklist).update(current=False)
-        task.current = True
-        task.save()
+        tasklist.currenttask = task
+        tasklist.save()
     return HttpResponseRedirect('/todolist/' + tasklistid)
