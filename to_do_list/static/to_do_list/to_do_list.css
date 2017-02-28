@@ -5,9 +5,17 @@ body {
 
 table {
   border-collapse: collapse;
+  width: 100%;
 }
 
 td {
+  text-align: center;
+}
+
+#activetask {
+  border: solid;
+  border-width: 5px;
+  border-color: red;
   padding: 3px;
 }
 
@@ -23,10 +31,21 @@ td {
 #finishedtasks {
 }
 
-#pausebutton {
+#pauseform, #endform {
+  display: inline-block;
+}
+
+#pausebutton, #endbutton {
+  margin-top: 5px;
+  display: inline-block;
 }
 
 #endbutton {
+  background-color: crimson;
+}
+
+.workontaskbutton {
+  margin-bottom: 0;
 }
 
 .sortable-placeholder {
@@ -37,9 +56,26 @@ td {
     width: 75px;
 }
 
-.task {
+.task, .finishedtask {
   border: solid;
-  border-width: 5px;
-  border-color: red;
-  height: 75px;
+  border-color: white;
+}
+
+.task {
+  line-height: 60px;
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+
+.task:active {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+
+.finishedtask {
+  border-width: 1px;
+  border-color: white;
 }

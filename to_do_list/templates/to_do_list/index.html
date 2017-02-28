@@ -10,87 +10,92 @@
     <title>TaskMaster 2017</title>
 </head>
     <body>
-        <div id=header>
-            <center><h1>{{ tasklist.name }} </h1></center>
-            <form id="entertask" action="/todolist/{{ tasklist.id }}/"
-            method="post">
-                {% csrf_token %}
-                {{ form }}
-                <input type="submit" value="Submit" />
-            </form>
+        <center><h1>{{ tasklist.name }} </h1></center>
+        <h2>Enter A New Task:</h2>
+        <form id="entertask" action="/todolist/{{ tasklist.id }}/"
+        method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Submit" />
+        </form>
 
-            {% if currenttask %}
-            <div id=displayedtask>
-              <div id=currenttask>Current task: {{ currenttask.text }}</div>
-              <div id=taskstartedtime
-                >Started time: {{ currenttask.created }}</div>
-            </div>
+        <h2>Current Task</h2>
+        {% if currenttask %}
+        <div id=activetask>
+          <div id=currenttask>Current task: {{ currenttask.text }}</div>
+          <div id=taskstartedtime
+            >Started time: {{ currenttask.created }}</div>
 
-            <form action="pausetask/{{ currenttask.id }}/" method="POST">{%csrf_token %}
-              <input type="hidden" name="taskid" value="{{ currenttask.id }}"
-              ><input type="submit" value="Pause Task">
-            </form>
-            <form action="finishtask/{{ currenttask.id }}/" method="POST">{%csrf_token%}
-              <input type="hidden" name="taskid" value="{{ currenttask.id }}"
-              ><input type="submit" value="Finish Task">
-            </form>
-            {% endif %}
+        <form id=pauseform action="pausetask/{{ currenttask.id }}/" method="POST">{%csrf_token %}
+          <input  type="hidden" name="taskid" value="{{ currenttask.id }}"
+          ><input id=pausebutton type="submit" value="Pause">
+        </form>
+        <form id=endform action="finishtask/{{ currenttask.id }}/" method="POST">{%csrf_token%}
+          <input type="hidden" name="taskid" value="{{ currenttask.id }}"
+          ><input id=endbutton type="submit" value="Finish">
+        </form>
+      </div>
+        {% endif %}
 
-          <h2>Active Tasks<h2>
-          {% if tasks %}
-          </div><table style="100%">
-                <thead>
-                  <th>Task</th>
-                  <th>Priority</th>
-                  <th>Date Created</th>
-                  <th>Est. Duration</th>
-                </thead>
-                    <tbody id=tasklist>
-                        {% for task in tasks %}
-                            <tr class=task data-id={{ task.id }}
-                            data-priority={{ task.priority }}
-                            data-tasklist={{ task.tasklist.id }}>
-                                <td class=taskname>{{ task.text }}</td><td
-                                  class=priority
-                                >{{ task.priority }}</td><td
-                                >{{ task.created }}</td><td
-                                >{{ task.duration }}</td><td
-                                ><td><form action="togglecurrent/"
-                                  method="POST">{%csrf_token %}
-                                  <input type="hidden" name="taskid"
-                                  value="{{ task.id }}"
-                                  ><input type="submit" value="Work on Task">
-                                </form></td
-                                ><td><button class=deletetask
-                                  >Delete Task</button></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-            </table>
-            {% endif %}
-        </div>
+      <h2>Active Tasks<h2>
+      {% if tasks %}
+      </div>
+      <table style="100%">
+            <thead>
+              <th>Task</th>
+              <th>Priority</th>
+              <th>Date Created</th>
+              <th>Est. Duration</th>
+            </thead>
+                <tbody id=tasklist>
+                    {% for task in tasks %}
+                      {% if task.id != currenttask.id %}
+                        <tr class=task data-id={{ task.id }}
+                        data-priority={{ task.priority }}
+                        data-tasklist={{ task.tasklist.id }}>
+                            <td class=taskname>{{ task.text }}</td><td
+                              class=priority
+                            >{{ task.priority }}</td><td class=created
+                            >{{ task.created }}</td><td class=duration
+                            >{{ task.duration }}</td><td
+                            ><td><form class=workontaskbutton
+                              action="togglecurrent/"
+                              method="POST">{%csrf_token %}
+                              <input type="hidden" name="taskid"
+                              value="{{ task.id }}"
+                              ><input type="submit" value="Work on Task">
+                            </form></td
+                            ><td><button class=deletetaskbutton
+                              >Delete Task</button></td>
+                        </tr>
+                      {% endif %}
+                    {% endfor %}
+                </tbody>
+        </table>
+        {% endif %}
     </body>
 
     <h2>Finished Tasks</h2>
     {% if finishedtasks %}
-    <div id=finishedtasks>
-      <thead>
-        <th>Task</th>
-        <th>Date Created</th>
-        <th>Est. Duration</th>
-        <th>Date Completed</th>
-      </thead>
-      <tbody id=finishedtasklist>
-        {% for task in finishedtasks %}
-        <tr>
-            <td>{{ task.text }}</td><td
-            >TASK: {{ task.text }}</td><td
-            >CREATED: {{ task.created }}</td><td
-            >DURATION: {{ task.duration }}</td><td
-            >COMPLETED: {{ task.completed }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
+    <div id=finishedtasklist>
+      <table>
+        <thead>
+          <th>Task</th>
+          <th>Date Created</th>
+          <th>Duration</th>
+          <th>Date Completed</th>
+        </thead>
+        <tbody>
+          {% for task in finishedtasks %}
+          <tr class=finishedtask>
+              <td>{{ task.text }}</td><td
+              >{{ task.created }}</td><td
+              >Dummy Value</td><td
+              >{{ task.completed }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
     {% endif %}
 </html>
