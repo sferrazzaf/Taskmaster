@@ -12,7 +12,7 @@ def todolist(request, tasklistid):
     if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
-            Task.objects.all().update(priority = F('priority') + 1)
+            Task.objects.update(priority = F('priority') + 1)
             newtask = Task(duration = form.cleaned_data['duration'],
             text=form.cleaned_data['text'], created=timezone.now())
             newtask.priority = 1
@@ -23,9 +23,8 @@ def todolist(request, tasklistid):
         form = TaskForm()
         thislist = Tasklist.objects.get(id=tasklistid)
         currenttask = thislist.currenttask
-        if not currenttask:
-            currenttask = "None"
-        tasks = Task.objects.filter(tasklist=tasklistid).order_by('priority')
+        tasks = Task.objects.filter(tasklist=tasklistid, completed__isnull=True
+        ).order_by('priority')
         return render(request, 'to_do_list/index.html',
                      {'form': form,
                      'tasks': tasks,
@@ -61,3 +60,11 @@ def togglecurrent(request, tasklistid):
         tasklist.currenttask = task
         tasklist.save()
     return HttpResponseRedirect('/todolist/' + tasklistid)
+
+def pausetask(request, taskid):
+    if request.method == 'POST':
+        pass
+
+def finishtask(request, taskid):
+    if request.method == 'POST':
+        pass
