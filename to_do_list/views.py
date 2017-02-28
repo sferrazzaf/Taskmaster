@@ -25,9 +25,12 @@ def todolist(request, tasklistid):
         currenttask = thislist.currenttask
         tasks = Task.objects.filter(tasklist=tasklistid, completed__isnull=True
         ).order_by('priority')
+        finishedtasks = Task.objects.exclude(tasklist=tasklistid, completed__isnull=True
+        ).order_by('priority')
         return render(request, 'to_do_list/index.html',
                      {'form': form,
                      'tasks': tasks,
+                     'finishedtasks': finishedtasks,
                      'tasklist': thislist,
                      'currenttask': currenttask
                      }
@@ -66,5 +69,12 @@ def pausetask(request, taskid):
         pass
 
 def finishtask(request, taskid):
+    print(taskid)
     if request.method == 'POST':
-        pass
+        workingtask = Task.objects.get(id=taskid)
+        workingtasklist = workingtask.relatedtasklist
+        workingtasklist.currenttask = None
+        workingtasklist.save()
+        workingtask.completed = timezone.now()
+        workingtask.save()
+    return HttpResponseRedirect('/todolist/' + str(workingtasklist.id))

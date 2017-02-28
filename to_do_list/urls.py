@@ -7,10 +7,10 @@ urlpatterns = [
         url(r'^todolist/([0-9]+)/reorder/$', views.reorder, name='reorder'),
         url(r'^todolist/([0-9]+)/togglecurrent/$', views.togglecurrent,
             name='togglecurrent'),
-        url(r'^todolist/([0-9])/delete/([0-9]+)/$', views.deletetask,
+        url(r'^todolist/([0-9]+)/delete/([0-9]+)/$', views.deletetask,
         name='deletetask'),
-        url(r'^todolist/([0-9]+)/pausetask/$', views.pausetask,
+        url(r'^todolist/[0-9]+/pausetask/([0-9]+)/$', views.pausetask,
         name='pausetask'),
-        url(r'^todolist/([0-9]+)/finishtask/$', views.finishtask, 
+        url(r'^todolist/[0-9]+/finishtask/([0-9]+)/$', views.finishtask,
         name='finishtask')
         ]
