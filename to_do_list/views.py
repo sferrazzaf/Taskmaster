@@ -54,31 +54,26 @@ def reorder(request, tasklistid):
         tasklist.movetask(task, movedto)
     return HttpResponse(status=202)
 
-def togglecurrent(request, tasklistid):
-    if request.method =='POST':
-        tasklist = Tasklist.objects.get(id=tasklistid)
+def updatetask(request):
+    if request.method == 'POST':
+        updatetype = request.POST.get('updatetype')
         taskid = request.POST.get('taskid')
         task = Task.objects.get(id=taskid)
-        tasklist.movetask(task, 1)
-        tasklist.currenttask = task
-        tasklist.save()
-    return HttpResponseRedirect('/todolist/' + tasklistid)
-
-def pausetask(request, taskid):
-    if request.method == 'POST':
-        workingtask = Task.objects.get(id=taskid)
-        workingtasklist = workingtask.relatedtasklist
-        workingtasklist.currenttask = None
-        workingtasklist.save()
-    return HttpResponseRedirect('/todolist/' + str(workingtasklist.id))
-
-def finishtask(request, taskid):
-    print(taskid)
-    if request.method == 'POST':
-        workingtask = Task.objects.get(id=taskid)
-        workingtasklist = workingtask.relatedtasklist
-        workingtasklist.currenttask = None
-        workingtasklist.save()
-        workingtask.completed = timezone.now()
-        workingtask.save()
-    return HttpResponseRedirect('/todolist/' + str(workingtasklist.id))
+        tasklist = task.tasklist
+        print(updatetype)
+        print(taskid)
+        print(task)
+        print(tasklist)
+        if updatetype == 'workontask':
+            tasklist.movetask(task, 1)
+            tasklist.currenttask = task
+            tasklist.save()
+        if updatetype == 'pausetask':
+            tasklist.currenttask = None
+            tasklist.save()
+        if updatetype == 'finishtask':
+            tasklist.currenttask = None
+            tasklist.save()
+            task.completed = timezone.now()
+            task.save()
+    return HttpResponseRedirect('/todolist/' + str(tasklist.id))

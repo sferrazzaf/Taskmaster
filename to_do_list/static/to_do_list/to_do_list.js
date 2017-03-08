@@ -56,7 +56,7 @@ $(document).ready(function() {
       //change priority clientside
       $(".task").each(function() {
         $(this).attr("data-priority", ($(this)[0].rowIndex))
-        $(this).children().filter(".priority").text("PRIORITY: " + ($(this)[0].rowIndex))
+        $(this).children().filter(".priority").text(($(this)[0].rowIndex))
       });
     });
 

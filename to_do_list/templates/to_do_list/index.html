@@ -26,12 +26,14 @@
           <div id=taskstartedtime
             >Started time: {{ currenttask.created }}</div>
 
-        <form id=pauseform action="pausetask/{{ currenttask.id }}/" method="POST">{%csrf_token %}
-          <input  type="hidden" name="taskid" value="{{ currenttask.id }}"
+        <form id=pauseform action="updatetask/" method="POST">{%csrf_token %}
+          <input type="hidden" name="taskid" value="{{ currenttask.id }}"
+          ><input type="hidden" name="updatetype" value="pausetask"
           ><input id=pausebutton type="submit" value="Pause">
         </form>
-        <form id=endform action="finishtask/{{ currenttask.id }}/" method="POST">{%csrf_token%}
+        <form id=endform action="updatetask/" method="POST">{%csrf_token%}
           <input type="hidden" name="taskid" value="{{ currenttask.id }}"
+          ><input type="hidden" name="updatetype" value="finishtask"
           ><input id=endbutton type="submit" value="Finish">
         </form>
       </div>
@@ -59,10 +61,12 @@
                             >{{ task.created }}</td><td class=duration
                             >{{ task.duration }}</td><td
                             ><td><form class=workontaskbutton
-                              action="togglecurrent/"
+                              action="updatetask/"
                               method="POST">{%csrf_token %}
                               <input type="hidden" name="taskid"
                               value="{{ task.id }}"
+                              ><input type="hidden" name="updatetype"
+                              value="workontask"
                               ><input type="submit" value="Work on Task">
                             </form></td
                             ><td><button class=deletetaskbutton
