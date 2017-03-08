@@ -60,14 +60,6 @@ $(document).ready(function() {
       });
     });
 
-
-    //begin working on task
-    // $(".workontask").click(function() {
-    //     var taskid = $(this).parent().parent().children(".taskname").text()
-    //     console.log(taskid)
-    //   });
-
-
     //delete task
     $(".deletetaskbutton").click(function() {
         var taskid = ($(this).parent().parent()[0].getAttribute('data-id'))
