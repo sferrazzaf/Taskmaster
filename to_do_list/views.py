@@ -36,7 +36,7 @@ def todolist(request, tasklistid):
                      }
         )
 
-def deletetask(request, tasklist, taskid):
+def deletetask(request, taskid):
     if request.method == 'DELETE':
         workingtask = Task.objects.get(id=taskid)
         priority = workingtask.priority
@@ -66,7 +66,11 @@ def togglecurrent(request, tasklistid):
 
 def pausetask(request, taskid):
     if request.method == 'POST':
-        pass
+        workingtask = Task.objects.get(id=taskid)
+        workingtasklist = workingtask.relatedtasklist
+        workingtasklist.currenttask = None
+        workingtasklist.save()
+    return HttpResponseRedirect('/todolist/' + str(workingtasklist.id))
 
 def finishtask(request, taskid):
     print(taskid)

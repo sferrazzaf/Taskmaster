@@ -69,7 +69,7 @@ $(document).ready(function() {
 
 
     //delete task
-    $(".deletetask").click(function() {
+    $(".deletetaskbutton").click(function() {
         var taskid = ($(this).parent().parent()[0].getAttribute('data-id'))
         $.ajax({
           url: "delete/" + taskid + "/",
