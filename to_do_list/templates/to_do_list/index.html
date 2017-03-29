@@ -11,6 +11,7 @@
 </head>
     <body>
         <center><h1>{{ tasklist.name }} </h1></center>
+        <center><div><a href="{% url 'reports' tasklist.id %}">View Reports</a></div></center>
         <h2>Enter A New Task:</h2>
         <form id="entertask" action="/todolist/{{ tasklist.id }}/"
         method="post">
@@ -19,8 +20,10 @@
             <input type="submit" value="Submit" />
         </form>
 
-        <h2>Current Task</h2>
+        <hr><hr>
+
         {% if currenttask %}
+        <h2>Current Task</h2>
         <div id=activetask>
           <div id=currenttask>Current task: {{ currenttask.text }}</div>
           <div id=taskstartedtime
@@ -37,9 +40,10 @@
           ><input id=endbutton type="submit" value="Finish">
         </form>
       </div>
+      <hr><hr>
         {% endif %}
 
-      <h2>Active Tasks<h2>
+      <h2>Upcoming Tasks<h2>
       {% if tasks %}
       </div>
       <table style="100%">
@@ -78,6 +82,8 @@
         </table>
         {% endif %}
     </body>
+
+    <hr><hr>
 
     <h2>Finished Tasks</h2>
     {% if finishedtasks %}

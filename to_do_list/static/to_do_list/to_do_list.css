@@ -12,6 +12,10 @@ td {
   text-align: center;
 }
 
+a {
+  color: red;
+}
+
 #activetask {
   border: solid;
   border-width: 5px;
