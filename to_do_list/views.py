@@ -66,23 +66,16 @@ def updatetask(request):
         taskid = request.POST.get('taskid')
         task = Task.objects.get(id=taskid)
         tasklist = task.tasklist
-        print(task)
-        print(task.id)
         if updatetype == 'workontask':
             tasklist.movetask(task, 1)
             tasklist.currenttask = task
             tasklist.save()
             starttask = Starttask(task=task, time=timezone.now())
-            print(starttask.time)
-            print(starttask.task)
             starttask.save()
         if updatetype == 'pausetask':
             tasklist.currenttask = None
             tasklist.save()
             stoptask = Stoptask(task=task, time=timezone.now())
-            print(stoptask)
-            print(stoptask.time)
-            print(stoptask.task)
             stoptask.save()
         if updatetype == 'finishtask':
             tasklist.currenttask = None
@@ -90,7 +83,5 @@ def updatetask(request):
             task.completed = timezone.now()
             task.save()
             stoptask = Stoptask(task=task, time=timezone.now())
-            print(stoptask.task)
-            print(stoptask.time)
             stoptask.save()
     return HttpResponseRedirect('/todolist/' + str(tasklist.id))
