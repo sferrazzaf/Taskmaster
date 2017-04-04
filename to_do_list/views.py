@@ -38,8 +38,12 @@ def todolist(request, tasklistid):
 
 def reports(request, tasklistid):
     tasklist = Tasklist.objects.get(id=tasklistid)
+    tasks = Task.objects.filter(tasklist=tasklistid, completed__isnull=False)
+    print(tasks)
     return render(request, 'to_do_list/reports.html',
-                 {'tasklist': tasklist}
+                 {'tasklist': tasklist,
+                  'tasks': tasks
+                  }
                  )
 
 def deletetask(request, taskid):
@@ -70,18 +74,30 @@ def updatetask(request):
             tasklist.movetask(task, 1)
             tasklist.currenttask = task
             tasklist.save()
-            starttask = Starttask(task=task, time=timezone.now())
-            starttask.save()
+            juncture = Juncture(
+                task=task,
+                time=timezone.now(),
+                juncture='START'
+                )
+            juncture.save()
         if updatetype == 'pausetask':
             tasklist.currenttask = None
             tasklist.save()
-            stoptask = Stoptask(task=task, time=timezone.now())
-            stoptask.save()
+            juncture = Juncture(
+                task=task,
+                time=timezone.now(),
+                juncture='STOP'
+                )
+            juncture.save()
         if updatetype == 'finishtask':
             tasklist.currenttask = None
             tasklist.save()
             task.completed = timezone.now()
             task.save()
-            stoptask = Stoptask(task=task, time=timezone.now())
-            stoptask.save()
+            juncture = Juncture(
+                task=task,
+                time=timezone.now(),
+                juncture='STOP'
+                )
+            juncture.save()
     return HttpResponseRedirect('/todolist/' + str(tasklist.id))

@@ -36,10 +36,11 @@ class Task(models.Model):
     def __unicode__(self):
         return self.text
 
-class Starttask(models.Model):
+class Juncture(models.Model):
     task = models.ForeignKey(Task)
     time = models.DateTimeField('time started')
-
-class Stoptask(models.Model):
-    task = models.ForeignKey(Task)
-    time = models.DateTimeField('time stopped')
+    juncture_choices = (
+    ('START', 'Start'),
+    ('STOP', 'Stop')
+    )
+    juncture = models.CharField(max_length=5, choices=juncture_choices)

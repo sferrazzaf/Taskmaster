@@ -5,4 +5,8 @@
 
 <center><div><a href="{% url 'todolist' tasklist.id %}">Return to Task List</a></div></center>
 
+{% for task in tasks %}
+<div> {{ task }} </div>
+{% endfor %}
+
 </html>
