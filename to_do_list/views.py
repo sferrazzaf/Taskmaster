@@ -73,31 +73,21 @@ def updatetask(request):
         if updatetype == 'workontask':
             tasklist.movetask(task, 1)
             tasklist.currenttask = task
-            tasklist.save()
             juncture = Juncture(
                 task=task,
                 time=timezone.now(),
                 juncture='START'
                 )
-            juncture.save()
-        if updatetype == 'pausetask':
+        else:
             tasklist.currenttask = None
-            tasklist.save()
+            if updatetype == 'finishtask':
+                task.completed = timezone.now()
+                task.save()
             juncture = Juncture(
                 task=task,
                 time=timezone.now(),
                 juncture='STOP'
                 )
-            juncture.save()
-        if updatetype == 'finishtask':
-            tasklist.currenttask = None
-            tasklist.save()
-            task.completed = timezone.now()
-            task.save()
-            juncture = Juncture(
-                task=task,
-                time=timezone.now(),
-                juncture='STOP'
-                )
-            juncture.save()
+        tasklist.save()
+        juncture.save()
     return HttpResponseRedirect('/todolist/' + str(tasklist.id))
